@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>María Fernanda &amp; Juan Esteban · Nuestra Boda</title>
+<title>Yolanmi &amp; Wellington · Nuestra Boda</title>
 <meta name="description" content="Con la bendición de Dios y de nuestros padres, tenemos el honor de invitarles a celebrar nuestra boda.">
-<meta property="og:title" content="María Fernanda & Juan Esteban · Nuestra Boda">
+<meta property="og:title" content="Yolanmi & Wellington · Nuestra Boda · 24.04.2027">
 <meta property="og:description" content="Tienes una invitación especial 💌 Toca para abrirla.">
 <meta name="theme-color" content="#ebe4d8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,6 +161,8 @@
   .caps{font-size:clamp(10px,2.7vw,12px);letter-spacing:.21em;text-transform:uppercase;line-height:1.95}
   .greet{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(16px,4.3vw,19px);color:var(--muted);margin-bottom:14px}
   .names{font-family:"Great Vibes",cursive;font-weight:400;color:var(--green-ink);font-size:clamp(40px,10.8vw,62px);line-height:1.05;margin:22px 0 26px}
+  .names .who{display:block}
+  .names .ln{display:block;font-family:"Montserrat",sans-serif;font-size:clamp(10px,2.7vw,12px);letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-top:12px;line-height:1.4}
   .amp{display:flex;align-items:center;justify-content:center;gap:14px;font-size:.7em;margin:2px 0 6px;color:var(--gold-dark)}
   .amp::before,.amp::after{content:"";width:clamp(50px,18vw,92px);height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
   .amp::after{background:linear-gradient(270deg,transparent,var(--gold))}
@@ -327,7 +329,7 @@
       <p class="greet seq" id="greet" style="transition-delay:.6s"></p>
       <p class="caps seq" style="transition-delay:.7s" data-field="bendicion"></p>
       <h1 class="names seq" style="transition-delay:.95s">
-        <span data-field="novia"></span><span class="amp">&amp;</span><span data-field="novio"></span>
+        <span id="nNovia"></span><span class="amp">&amp;</span><span id="nNovio"></span>
       </h1>
       <p class="caps seq" style="transition-delay:1.2s" data-field="intro"></p>
       <div class="date seq" style="transition-delay:1.4s">
@@ -431,22 +433,22 @@
    El día de la semana y el mes se calculan solos a partir de "fecha".
    ========================================================= */
 const BODA = {
-  novia:          "María Fernanda",
-  novio:          "Juan Esteban",
-  iniciales:      "M & J",
+  novia:          "Yolanmi Rodríguez",
+  novio:          "Wellington Martínez",
+  iniciales:      "Y & W",
   bendicion:      "Con la bendición de Dios\ny de nuestros padres",
   intro:          "Tenemos el honor de invitarles\na celebrar nuestra boda",
-  fecha:          "2026-03-08T17:30:00-04:00",   // AAAA-MM-DD T hora (hora de Rep. Dom.)
+  fecha:          "2027-04-24T17:30:00-04:00",   // AAAA-MM-DD T hora (hora de Rep. Dom.)
   horaCeremonia:  "5:30 P.M.",
-  recepcion:      "Recepción a seguir",
-  lugar:          "Salón Jardines del Encanto",
-  ciudad:         "Santiago, Rep. Dom.",
-  mapsUrl:        "https://maps.google.com/?q=Salón+Jardines+del+Encanto+Santiago+República+Dominicana",
+  recepcion:      "Recepción a seguir\nen el mismo lugar",
+  lugar:          "Villa Unifiesta & Eventos",
+  ciudad:         "República Dominicana",
+  mapsUrl:        "https://maps.app.goo.gl/Ru5YMXPEC9aeiK3GA",
   frase:          "Tu presencia hará\neste día aún más especial",
 
   itinerario: [
-    { titulo: "Ceremonia", hora: "5:30 P.M.", lugar: "Salón Jardines del Encanto", icono: "anillos" },
-    { titulo: "Recepción", hora: "A seguir",  lugar: "Salón Jardines del Encanto", icono: "copas" }
+    { titulo: "Ceremonia", hora: "5:30 P.M.", lugar: "Villa Unifiesta & Eventos", icono: "anillos" },
+    { titulo: "Recepción", hora: "A seguir",  lugar: "En el mismo lugar", icono: "copas" }
   ],
 
   vestimenta:     "Formal",
@@ -455,7 +457,7 @@ const BODA = {
 
   regalos:        "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, tendremos lluvia de sobres el día del evento.",
 
-  confirmarAntes: "15 de febrero",
+  confirmarAntes: "1 de abril",
   whatsapp:       "",          // con código de país, sin + ni espacios. Ej: 18095551234
   musica:         ""           // enlace a un .mp3 (opcional). Ej: "musica.mp3"
 };
@@ -478,6 +480,9 @@ const dd = String(D).padStart(2,'0'), mm = String(M).padStart(2,'0');
 
 /* ---------- rellenar ---------- */
 document.querySelectorAll('[data-field]').forEach(el => el.innerHTML = br(BODA[el.dataset.field] || ''));
+const nameHTML = full => { const [first, ...rest] = full.trim().split(/\s+/); return `<span class="who">${esc(first)}</span>${rest.length ? `<span class="ln">${esc(rest.join(' '))}</span>` : ''}`; };
+$('nNovia').innerHTML = nameHTML(BODA.novia);
+$('nNovio').innerHTML = nameHTML(BODA.novio);
 $('dWeekday').textContent = weekday; $('dDay').textContent = dd; $('dMonth').textContent = MESES[M-1]; $('dYear').textContent = Y;
 $('sceneDate').textContent = `${dd} · ${mm} · ${Y}`;
 $('miniNames').textContent = BODA.iniciales;
@@ -489,7 +494,8 @@ $('toLine').innerHTML = invitado ? `Para<b>${esc(invitado)}</b>` : `Para ti, con
 if (invitado) $('greet').innerHTML = `Querido(s) ${esc(invitado)}`; else $('greet').remove();
 if (pases) { $('passes').hidden = false; $('passes').innerHTML = `Hemos reservado <b>${esc(pases)}</b> ${pases === '1' ? 'lugar' : 'lugares'} para ti`; }
 $('rsvpBy').textContent = BODA.confirmarAntes ? `Antes del ${BODA.confirmarAntes}` : '';
-const msg = `¡Hola! ${invitado ? esc(invitado) + ' confirma' : 'Confirmo'} asistencia a la boda de ${BODA.novia} & ${BODA.novio} 💚${pases ? ` (${pases} ${pases==='1'?'persona':'personas'})` : ''}`;
+const first = n => n.trim().split(/\s+/)[0];
+const msg = `¡Hola! ${invitado ? invitado + ' confirma' : 'Confirmo'} asistencia a la boda de ${first(BODA.novia)} & ${first(BODA.novio)} 💚${pases ? ` (${pases} ${pases==='1'?'persona':'personas'})` : ''}`;
 $('rsvpBtn').href = `https://wa.me/${BODA.whatsapp}?text=${encodeURIComponent(msg)}`;
 BODA.paleta.forEach(c => { const i = document.createElement('i'); i.style.background = c; $('palette').appendChild(i); });
 

@@ -1,17 +1,34 @@
 # Invitación de boda digital
 
-Una invitación web: primero se ve un **sobre verde salvia con sello dorado**. Al tocarlo, el sobre se abre, la tarjeta sale y aparece la invitación completa (eucalipto, marco dorado, fondo marfil).
+Primero se ve un **sobre verde salvia con sello dorado de iniciales**, ramitas de eucalipto y paniculata, bajo luces cálidas. Al tocar el sello el sobre se abre (con forro interior), la tarjeta sale y aparece la invitación completa:
+
+- Tarjeta principal (eucalipto en acuarela, marco dorado, fondo marfil)
+- Cuenta regresiva
+- Itinerario (ceremonia, recepción…)
+- Código de vestimenta con paleta de colores
+- Regalos
+- Confirmación por WhatsApp
+- Música de fondo opcional
 
 ## Cómo editar los datos
-Abre `index.html` y busca el bloque `const BODA = { ... }` (cerca del final). Ahí cambias:
-- nombres, iniciales y fecha
-- hora de la ceremonia, lugar y frase final
-- `mapsUrl`: enlace de Google Maps del salón
-- `whatsapp`: número para confirmar asistencia (con código de país, sin `+`; ej. `18095551234`)
+Abre `index.html` y busca el bloque `const BODA = { ... }`. Ahí cambias nombres, fecha, lugar, itinerario, vestimenta, regalos, número de WhatsApp y música.
+El **día de la semana y el mes se calculan solos** a partir de `fecha`.
 
-Cambia también el `<title>` y las etiquetas `og:` del inicio del archivo: son el texto que se ve al compartir el enlace por WhatsApp.
+Cambia también el `<title>` y las etiquetas `og:` del inicio: es lo que se ve al compartir el enlace.
 
-## Cómo publicarla (gratis) con GitHub Pages
+## Invitaciones personalizadas
+Agrega al final del enlace el nombre del invitado y los lugares reservados:
+
+```
+https://<usuario>.github.io/Invitacion_boda/?invitado=Familia%20Pérez&pases=4
+```
+
+El sobre dirá "Para Familia Pérez", la tarjeta empezará con "Querido(s) Familia Pérez" y la sección de confirmación mostrará los 4 lugares reservados (también se incluyen en el mensaje de WhatsApp).
+
+## Música (opcional)
+Sube un archivo `musica.mp3` al repositorio y escribe `musica: "musica.mp3"`. Empezará a sonar al abrir el sobre y aparecerá un botón para pausarla.
+
+## Publicarla gratis con GitHub Pages
 1. En GitHub: **Settings → Pages**.
 2. En *Source*, elige la rama y la carpeta `/ (root)`, y guarda.
-3. En unos minutos tendrás un enlace `https://<usuario>.github.io/Invitacion_boda/` para enviar por WhatsApp.
+3. En unos minutos tendrás tu enlace `https://<usuario>.github.io/Invitacion_boda/`.

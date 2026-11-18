@@ -1,8 +1,8 @@
 # Invitación de boda digital
 
-Primero se ve un **sobre verde salvia con sello dorado de iniciales**, ramitas de eucalipto y paniculata, bajo luces cálidas. Al tocar el sello el sobre se abre (con forro interior), la tarjeta sale y aparece la invitación completa:
+Primero se ve un **sobre verde salvia con sello dorado de iniciales**, rosas blancas, hojas doradas y paniculata, bajo luces cálidas. Al tocar el sello el sobre se abre (con forro interior), la tarjeta sale y aparece la invitación completa:
 
-- Tarjeta principal (eucalipto en acuarela, marco dorado, fondo marfil)
+- Tarjeta principal (rosas blancas en acuarela, hojas doradas, marco dorado, fondo marfil)
 - Cuenta regresiva
 - Itinerario (ceremonia, recepción…)
 - Código de vestimenta con paleta de colores
@@ -17,7 +17,9 @@ El **día de la semana y el mes se calculan solos** a partir de `fecha`.
 Cambia también el `<title>` y las etiquetas `og:` del inicio: es lo que se ve al compartir el enlace.
 
 ## Invitaciones personalizadas
-Agrega al final del enlace el nombre del invitado y los lugares reservados:
+La forma más fácil: abre **`enlaces.html`** (por ejemplo `https://<usuario>.github.io/Invitacion_boda/enlaces.html`), escribe el nombre del invitado y los lugares, y pulsa *Copiar enlace* o *Enviar por WhatsApp*.
+
+O escríbelo a mano: Agrega al final del enlace el nombre del invitado y los lugares reservados:
 
 ```
 https://<usuario>.github.io/Invitacion_boda/?invitado=Familia%20Pérez&pases=4

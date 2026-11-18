@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Crear enlaces de invitados</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;background:#ebe4d8;font-family:"Montserrat",system-ui,sans-serif;color:#4b4a41;display:flex;justify-content:center;padding:32px 16px}
+  .box{width:min(100%,460px);background:#fcf9f2;border:1px solid #c49d55;border-radius:6px;padding:30px 24px;box-shadow:0 14px 34px rgba(62,56,40,.15)}
+  h1{font-family:"Great Vibes",cursive;font-weight:400;font-size:42px;color:#3d5140;text-align:center;line-height:1.1}
+  .sub{text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#62735a;margin:6px 0 24px}
+  label{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin:16px 0 6px}
+  input{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1px solid #d8c9a8;border-radius:4px;background:#fff}
+  input:focus{outline:2px solid #c49d55;outline-offset:1px}
+  .out{margin-top:22px;padding:14px;background:#f3eee2;border-radius:4px;font-size:13px;word-break:break-all;min-height:48px}
+  .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  button,a.btn{flex:1;min-width:140px;font:inherit;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-align:center;text-decoration:none;cursor:pointer;padding:13px 12px;border-radius:999px;border:1px solid #c49d55;background:transparent;color:#3d5140}
+  a.btn{background:#62735a;border-color:#62735a;color:#fff}
+  .note{font-size:12px;line-height:1.6;color:#7c7a6e;margin-top:20px}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Enlaces de invitados</h1>
+    <p class="sub">Escribe el nombre y copia el enlace</p>
+
+    <label for="name">Nombre del invitado</label>
+    <input id="name" placeholder="Ej: Familia Pérez" autocomplete="off">
+
+    <label for="passes">Lugares reservados (opcional)</label>
+    <input id="passes" type="number" min="1" placeholder="Ej: 4">
+
+    <div class="out" id="out"></div>
+    <div class="row">
+      <button id="copy" type="button">Copiar enlace</button>
+      <a class="btn" id="wa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    </div>
+    <p class="note">El enlace abre la invitación con el nombre en el sobre ("Para Familia Pérez") y en la tarjeta. Si pones lugares, se muestran en la sección de confirmación.</p>
+  </div>
+<script>
+  const base = new URL('./', location.href).href;
+  const $ = id => document.getElementById(id);
+  function build(){
+    const n = $('name').value.trim(), p = $('passes').value.trim();
+    const q = new URLSearchParams();
+    if (n) q.set('invitado', n);
+    if (p) q.set('pases', p);
+    const link = base + (q.toString() ? '?' + q.toString().replace(/\+/g, '%20') : '');
+    $('out').textContent = link;
+    const msg = `${n ? n + ', ¡' : '¡'}tienes una invitación especial! 💌 Ábrela aquí:\n${link}`;
+    $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    return link;
+  }
+  $('name').addEventListener('input', build);
+  $('passes').addEventListener('input', build);
+  $('copy').addEventListener('click', async () => {
+    const link = build();
+    try { await navigator.clipboard.writeText(link); } catch { const t = document.createElement('textarea'); t.value = link; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    $('copy').textContent = '¡Copiado!'; setTimeout(() => $('copy').textContent = 'Copiar enlace', 1600);
+  });
+  build();
+</script>
+</body>
+</html>

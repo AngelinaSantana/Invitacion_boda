@@ -41,7 +41,7 @@
     <p class="note">El enlace abre la invitación con el nombre en el sobre ("Para Familia Pérez") y en la tarjeta. Si pones lugares, se muestran en la sección de confirmación.</p>
   </div>
 <script>
-  const base = new URL('./', location.href).href;
+  const base = new URL(location.protocol === 'file:' ? 'index.html' : './', location.href).href;
   const $ = id => document.getElementById(id);
   function build(){
     const n = $('name').value.trim(), p = $('passes').value.trim();

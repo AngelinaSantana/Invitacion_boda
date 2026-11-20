@@ -473,8 +473,8 @@ const BODA = {
 
   regalos:        "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, puedes hacerlo mediante transferencia bancaria a cualquiera de estas cuentas:",
   cuentas: [
-    { banco: "Banreservas",      tipo: "Cuenta de ahorro",   numero: "9604279771",   cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" },
-    { banco: "Asociación Cibao", tipo: "Número de producto", numero: "100011813497", cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" }
+    { banco: "Banreservas",      tipo: "Cuenta de ahorro",   numero: "9604279771",   titular: "Wellington Martínez",   cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" },
+    { banco: "Asociación Cibao", tipo: "Número de producto", numero: "100011813497", titular: "Wellington Martínez", cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" }
   ],
 
   confirmarAntes: "1 de abril",
@@ -522,7 +522,7 @@ $('accounts').innerHTML = (BODA.cuentas || []).map((c, i) => `
     <div class="bank">${esc(c.banco)}</div>
     <div class="type">${esc(c.tipo)}</div>
     <div class="num">${esc(c.numero)}</div>
-    <dl>${c.cedula ? `<dt>Cédula</dt><dd>${esc(c.cedula)}</dd>` : ''}${c.correo ? `<dt>Correo</dt><dd>${esc(c.correo)}</dd>` : ''}</dl>
+    <dl>${c.titular ? `<dt>Titular</dt><dd>${esc(c.titular)}</dd>` : ''}${c.cedula ? `<dt>Cédula</dt><dd>${esc(c.cedula)}</dd>` : ''}${c.correo ? `<dt>Correo</dt><dd>${esc(c.correo)}</dd>` : ''}</dl>
     <button class="copy" type="button" data-copy="${i}"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/></svg><span>Copiar número</span></button>
   </div>`).join('');
 $('accounts').addEventListener('click', async e => {

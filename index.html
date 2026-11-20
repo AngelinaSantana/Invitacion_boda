@@ -222,6 +222,20 @@
     transition:background .25s,color .25s,transform .25s;display:inline-flex;align-items:center;gap:9px;margin-top:22px}
   .btn:hover{background:var(--gold);color:#fff;transform:translateY(-1px)}
   .btn svg{width:15px;height:15px;fill:currentColor}
+  .accounts{display:flex;flex-direction:column;gap:18px;margin:26px auto 0;max-width:400px}
+  .acct{position:relative;background:rgba(252,249,242,.85);border:1px solid rgba(196,157,85,.55);border-radius:4px;padding:24px 20px 20px;text-align:center}
+  .acct::after{content:"";position:absolute;inset:4px;border:1px solid rgba(196,157,85,.22);border-radius:2px;pointer-events:none}
+  .acct .bank{font-family:"Great Vibes",cursive;font-size:32px;color:var(--green-ink);line-height:1.1}
+  .acct .type{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--sage-dark);margin-top:4px}
+  .acct .num{font-family:"Cormorant Garamond",serif;font-size:clamp(24px,7vw,30px);letter-spacing:.08em;color:var(--text);margin:10px 0 12px}
+  .acct dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;text-align:left;max-width:290px;margin:0 auto;font-size:12.5px}
+  .acct dt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+  .acct dd{color:var(--text);word-break:break-all}
+  .copy{position:relative;z-index:1;font-family:inherit;font-size:10px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;margin-top:16px;
+    padding:9px 16px;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--green-ink);display:inline-flex;align-items:center;gap:7px;transition:background .25s,color .25s}
+  .copy:hover,.copy.ok{background:var(--gold);color:#fff}
+  .copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.6}
+  .gift-thanks{font-family:"Great Vibes",cursive;font-size:28px;color:var(--green-ink);margin-top:24px}
 
   .rsvp{max-width:none;padding:0;margin-top:20px}
   .rsvp-inner{position:relative;overflow:hidden;background-image:var(--noise),linear-gradient(160deg,#7d8e6f,#62735a);background-blend-mode:multiply;color:#f6f1e4;padding:74px 24px 80px;text-align:center}
@@ -395,6 +409,8 @@
       <svg viewBox="0 0 48 48"><rect x="7" y="13" width="34" height="24" rx="2"/><path d="M7 15l17 12 17-12"/><path d="M24 22c-2-3-6-3-6 0 0 2.5 6 6 6 6s6-3.5 6-6c0-3-4-3-6 0z"/></svg>
     </div>
     <p class="s-text reveal" data-field="regalos"></p>
+    <div class="accounts" id="accounts"></div>
+    <p class="gift-thanks reveal">¡Gracias por tu cariño!</p>
   </section>
 
   <!-- Confirmación -->
@@ -455,7 +471,11 @@ const BODA = {
   vestimentaNota: "Con cariño te pedimos reservar el color blanco para la novia.",
   paleta:         ["#8d9d7e", "#62735a", "#c49d55", "#efe7d6"],  // colores sugeridos (o [] para ocultar)
 
-  regalos:        "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, tendremos lluvia de sobres el día del evento.",
+  regalos:        "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, puedes hacerlo mediante transferencia bancaria a cualquiera de estas cuentas:",
+  cuentas: [
+    { banco: "Banreservas",      tipo: "Cuenta de ahorro",   numero: "9604279771",   cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" },
+    { banco: "Asociación Cibao", tipo: "Número de producto", numero: "100011813497", cedula: "096-0030061-1", correo: "wellinmartin0@gmail.com" }
+  ],
 
   confirmarAntes: "1 de abril",
   whatsapp:       "18097053374", // con código de país, sin + ni espacios. Ej: 18095551234
@@ -497,6 +517,22 @@ $('rsvpBy').textContent = BODA.confirmarAntes ? `Antes del ${BODA.confirmarAntes
 const first = n => n.trim().split(/\s+/)[0];
 const msg = `¡Hola! ${invitado ? invitado + ' confirma' : 'Confirmo'} asistencia a la boda de ${first(BODA.novia)} & ${first(BODA.novio)} 💚${pases ? ` (${pases} ${pases==='1'?'persona':'personas'})` : ''}`;
 $('rsvpBtn').href = `https://wa.me/${BODA.whatsapp}?text=${encodeURIComponent(msg)}`;
+$('accounts').innerHTML = (BODA.cuentas || []).map((c, i) => `
+  <div class="acct reveal">
+    <div class="bank">${esc(c.banco)}</div>
+    <div class="type">${esc(c.tipo)}</div>
+    <div class="num">${esc(c.numero)}</div>
+    <dl>${c.cedula ? `<dt>Cédula</dt><dd>${esc(c.cedula)}</dd>` : ''}${c.correo ? `<dt>Correo</dt><dd>${esc(c.correo)}</dd>` : ''}</dl>
+    <button class="copy" type="button" data-copy="${i}"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/></svg><span>Copiar número</span></button>
+  </div>`).join('');
+$('accounts').addEventListener('click', async e => {
+  const b = e.target.closest('.copy'); if (!b) return;
+  const num = BODA.cuentas[b.dataset.copy].numero;
+  try { await navigator.clipboard.writeText(num); }
+  catch { const t = document.createElement('textarea'); t.value = num; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  b.classList.add('ok'); b.querySelector('span').textContent = '¡Copiado!';
+  setTimeout(() => { b.classList.remove('ok'); b.querySelector('span').textContent = 'Copiar número'; }, 1600);
+});
 BODA.paleta.forEach(c => { const i = document.createElement('i'); i.style.background = c; $('palette').appendChild(i); });
 
 const ICONS = {
